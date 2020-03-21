@@ -1,0 +1,5 @@
+requests
+requests_html
+pillow
+fpdf
+pyinstaller

@@ -1,0 +1,60 @@
+language: python
+branches:
+  only:
+    - master
+jobs:
+- name: Linux Build of webtoondl.py
+  python: 3.6
+  install:
+  - pip3 install --upgrade pip
+  - pip3 install -r requirements.txt
+  before_deploy:
+  - pyinstaller -F webtoondl.py
+  - mv ./dist/webtoondl ./webtoondl-$OS.exe
+  - git config --local user.name "Travis-CI-HSF"
+  - git config --local user.email "HSF@Travis-CI-Builds.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - git tag $TRAVIS_TAG
+  env:
+  - OS=LINUX
+- name: Mac OS X build of webtoondl.py
+  os: osx
+  osx_image: xcode11.2
+  language: shell
+  install:
+  - pip3 install --upgrade pip
+  - pip3 install -r requirements.txt
+  before_deploy:
+  - pyinstaller -F webtoondl.py
+  - mv ./dist/webtoondl ./webtoondl-$OS.exe
+  - git config --local user.name "Travis-CI-HSF"
+  - git config --local user.email "HSF@Travis-CI-Builds.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - git tag $TRAVIS_TAG
+  env:
+  - OS=OSX
+- name: Windows build of webtoondl.py
+  os: windows
+  language: shell
+  before_install:
+  - choco install python --version 3.8.0
+  install:
+  - C:/Python38/Scripts/pip.exe install -r requirements.txt
+  before_deploy:
+  - pyinstaller -F webtoondl.py
+  - mv ./dist/webtoondl.exe ./webtoondl-$OS.exe
+  - git config --local user.name "Travis-CI-HSF"
+  - git config --local user.email "HSF@Travis-CI-Builds.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - git tag $TRAVIS_TAG
+  env:
+  - OS=WIN
+  - PATH=/c/Python38:/c/Python38/Scripts:$PATH
+script:
+- python3 webtoondl.py 1022 -El || python webtoondl.py 1022 -El
+deploy:
+  provider: releases
+  api_key:
+    secure: "iNKjWupg+8whUkUlm49Z1JkwPYbKiAR8UI1YVeG9QyczfKfMN7QcdhCIqJLaDg0+LKplrk317Druh3UGWgkAnoYAyuvoqfALBuL0AIOoVy8pF/nkjMZi6h8zcKJBznojl4rz7xKu0R0PiDW6yCWojimnPgKAx6jbdCaGBfe/jbHkRNJEoL6+UuBvb7lJc0i3XDBEcwMLK6ndttwfoVnuUPG/hhM0CnI2Rf/68P/S+oi+2LMd2ivS4L185uje1iPdQiGUPjSn0xD0lqqXO9lrLFLvTOMAVt8QPT9qc+U/eIhwiQ8BCLvgqRQaU0OOTUx85nnMtcxDiWEvv5+GtP633Z9P/jfLjxT5PSQKfV01iB7ibfgHiH48zh7dEJK/gdwI7vKt8L++7I/4kzk0tLWJUujr63nAVTqdcLW9HYRQw2a0qieJ9a2nOP0St4jQw248F5HP7tDOPsBe5+lHzp+zre8jMYGqLisDVKxLw9/xvZy5OlvI7bFN3vAY98Oj1uCvrQLU0+bzb3lQsScGmz+UV9k/fHwrFPMLhkXkxWJv3+5xKmQbxC7VftwlwMZAUER19RPeC6SMwuOu+DJs5CwMRopeZxtjM9I9qQ6XVrswbp86oA1cyJ3/a8G9IGOdnbL11G9XBVSYtPy5Ns9JW8s/Jtopq+kWbbJ727oydSWxjPM="
+  file: webtoondl-$OS.exe
+  skip_cleanup: true
