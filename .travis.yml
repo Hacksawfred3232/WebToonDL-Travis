@@ -1,7 +1,7 @@
 language: python
 branches:
   only:
-    - master
+  - master
 jobs:
 - name: Linux Build of webtoondl.py
   python: 3.6
@@ -13,7 +13,8 @@ jobs:
   - mv ./dist/webtoondl ./webtoondl-$OS.exe
   - git config --local user.name "Travis-CI-HSF"
   - git config --local user.email "HSF@Travis-CI-Builds.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h
+    -1)-$OS}
   - git tag $TRAVIS_TAG
   env:
   - OS=LINUX
@@ -29,7 +30,8 @@ jobs:
   - mv ./dist/webtoondl ./webtoondl-$OS.exe
   - git config --local user.name "Travis-CI-HSF"
   - git config --local user.email "HSF@Travis-CI-Builds.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h
+    -1)-$OS}
   - git tag $TRAVIS_TAG
   env:
   - OS=OSX
@@ -45,7 +47,8 @@ jobs:
   - mv ./dist/webtoondl.exe ./webtoondl-$OS.exe
   - git config --local user.name "Travis-CI-HSF"
   - git config --local user.email "HSF@Travis-CI-Builds.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)-$OS}
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h
+    -1)-$OS}
   - git tag $TRAVIS_TAG
   env:
   - OS=WIN
@@ -54,7 +57,8 @@ script:
 - python3 webtoondl.py 1022 -El || python webtoondl.py 1022 -El
 deploy:
   provider: releases
-  api_key:
-    secure: "iNKjWupg+8whUkUlm49Z1JkwPYbKiAR8UI1YVeG9QyczfKfMN7QcdhCIqJLaDg0+LKplrk317Druh3UGWgkAnoYAyuvoqfALBuL0AIOoVy8pF/nkjMZi6h8zcKJBznojl4rz7xKu0R0PiDW6yCWojimnPgKAx6jbdCaGBfe/jbHkRNJEoL6+UuBvb7lJc0i3XDBEcwMLK6ndttwfoVnuUPG/hhM0CnI2Rf/68P/S+oi+2LMd2ivS4L185uje1iPdQiGUPjSn0xD0lqqXO9lrLFLvTOMAVt8QPT9qc+U/eIhwiQ8BCLvgqRQaU0OOTUx85nnMtcxDiWEvv5+GtP633Z9P/jfLjxT5PSQKfV01iB7ibfgHiH48zh7dEJK/gdwI7vKt8L++7I/4kzk0tLWJUujr63nAVTqdcLW9HYRQw2a0qieJ9a2nOP0St4jQw248F5HP7tDOPsBe5+lHzp+zre8jMYGqLisDVKxLw9/xvZy5OlvI7bFN3vAY98Oj1uCvrQLU0+bzb3lQsScGmz+UV9k/fHwrFPMLhkXkxWJv3+5xKmQbxC7VftwlwMZAUER19RPeC6SMwuOu+DJs5CwMRopeZxtjM9I9qQ6XVrswbp86oA1cyJ3/a8G9IGOdnbL11G9XBVSYtPy5Ns9JW8s/Jtopq+kWbbJ727oydSWxjPM="
   file: webtoondl-$OS.exe
   skip_cleanup: true
+env:
+  global:
+    secure: B3gr+adSKVZIwfdkqoi2fZP1GKnHBDjNXrNlHq9C+bkoXLE6YfDKY6LtukmEDGuz/qHSOlsQUy7Es6CyE79lIdbVRag/D0nQkUbub61rn4/NvBGwXQnhiNpqqcwcaTqrqektY+cHI+N2zmRnQWBZyGZOMIe9Hl5mzlHhvep+wxlRLutwiIrbEkn+SdjqhL7iaECY/pm8uGh8EymnA0ird3B5DgqYtyDSJdVuyeA95KDqKvT7o4mm7lQ92crE/+tl1i/86UAOkfdxEWMei6LJm+Mjai3bGaTMITUJR/UIdQsYsTSvr9T6I1TRJmkewhroN/BT8OzFFKpj/T2IspDFAlqDz8PXXS4dRjes5bUvRYxnkoEuaamRBvaK/+UquUzCvwuFoCEYk4TeGcYx7FFHfiChD3wjCfY8EiRJSjBBYUJIc9cUoHNYJjkyC+bcoaPv6sXIOkzc+VNr7RwQi6Atv8qq2yhwxmgPatgxzG3INGkujDcTjzWatsZHcNt4lu0jf3daDPfDKEksqIXSG0VX1xzBruLcK9KDG15lCjYoh070ApgZs6hoCYO5kAmZL/MftjFrfM9hIGsBRMk5NslE8fyQPQ0Go195gcqcjuVMp8PNe3a+W0gJe4Gv411ldsUbN5/uBrypwKAGYSRqsKcYDyCjRinxH44WuUOWorgqnUc=
