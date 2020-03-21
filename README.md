@@ -1,4 +1,4 @@
-# WebtoonDL
+# WebtoonDL https://api.travis-ci.com/Hacksawfred3232/WebToonDL-Travis.svg?branch=master
 A tool for downloading webtoons comics!
 
 # Usage
